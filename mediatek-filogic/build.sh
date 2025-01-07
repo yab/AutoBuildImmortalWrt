@@ -23,6 +23,10 @@ PACKAGES="$PACKAGES luci-i18n-passwall-zh-cn"
 PACKAGES="$PACKAGES luci-app-openclash"
 PACKAGES="$PACKAGES luci-i18n-homeproxy-zh-cn"
 PACKAGES="$PACKAGES openssh-sftp-server"
+PACKAGES="$PACKAGES luci-app-frpc"
+PACKAGES="$PACKAGES luci-i18n-frpc-zh-cn"
+PACKAGES="$PACKAGES wireguard-tools"
+PACKAGES="$PACKAGES luci-proto-wireguard"
 
 
 # 判断是否需要编译 Docker 插件
