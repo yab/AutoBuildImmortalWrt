@@ -39,6 +39,12 @@ PACKAGES="$PACKAGES openssh-sftp-server"
 PACKAGES="$PACKAGES fdisk"
 PACKAGES="$PACKAGES script-utils"
 PACKAGES="$PACKAGES luci-i18n-samba4-zh-cn"
+# 增加frpc 方便用户使用frp
+PACKAGES="$PACKAGES luci-app-frpc"
+PACKAGES="$PACKAGES luci-i18n-frpc-zh-cn"
+# 增加wireguard 方便用户使用wireguard
+PACKAGES="$PACKAGES wireguard-tools"
+PACKAGES="$PACKAGES luci-proto-wireguard"
 
 
 # 判断是否需要编译 Docker 插件
