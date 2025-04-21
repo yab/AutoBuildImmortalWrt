@@ -49,6 +49,8 @@ PACKAGES="$PACKAGES luci-i18n-frpc-zh-cn"
 # 增加wireguard 方便用户使用wireguard
 PACKAGES="$PACKAGES wireguard-tools"
 PACKAGES="$PACKAGES luci-proto-wireguard"
+# 增加sfp+驱动,802.3ad支持,和mwan3的安装包
+PACKAGES="$PACKAGES kmod-mlx4-core kmod-bonding luci-app-mwan3	mii-tool"
 
 # 判断是否需要编译 Docker 插件
 if [ "$INCLUDE_DOCKER" = "yes" ]; then
