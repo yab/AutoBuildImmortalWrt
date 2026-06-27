@@ -73,6 +73,14 @@
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-rtp2httpd luci-i18n-rtp2httpd-zh-cn"
 # 静态文件服务器dufs
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-dufs-zh-cn"
+# 增加sfp+驱动,802.3ad支持,和mwan3的安装包
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES kmod-mlx4-core kmod-bonding luci-app-mwan3 mii-tool"
+# 增加frpc 方便用户使用frp
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-frpc"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-frpc-zh-cn"
+# 增加wireguard 方便用户使用wireguard
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES wireguard-tools"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-proto-wireguard"
 
 #===========================以下imm仓库内的软件==============================↓
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-3cat-zh-cn"
