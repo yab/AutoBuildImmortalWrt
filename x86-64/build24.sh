@@ -59,6 +59,14 @@ PACKAGES="$PACKAGES openssh-sftp-server"
 
 # 文件管理器
 PACKAGES="$PACKAGES luci-i18n-filemanager-zh-cn"
+# 增加sfp+驱动,802.3ad支持,和mwan3的安装包
+PACKAGES="$PACKAGES kmod-mlx4-core kmod-bonding luci-app-mwan3 mii-tool"
+# 增加frpc 方便用户使用frp
+PACKAGES="$PACKAGES luci-app-frpc"
+PACKAGES="$PACKAGES luci-i18n-frpc-zh-cn"
+# 增加wireguard 方便用户使用wireguard
+PACKAGES="$PACKAGES wireguard-tools"
+PACKAGES="$PACKAGES luci-proto-wireguard"
 # ======== shell/custom-packages.sh =======
 # 合并imm仓库以外的第三方插件
 PACKAGES="$PACKAGES $CUSTOM_PACKAGES"
