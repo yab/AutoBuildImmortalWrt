@@ -92,6 +92,37 @@ fi
 
 
 # 构建镜像
+if [ "$PROFILE" = "cudy_tr3000-v1" ]; then
+    echo "🔧 正在为 cudy_tr3000-v1 修补 112M 大分区 DTB (0x4000000 -> 0x7000000)..."
+    KDIR="/home/build/immortalwrt/build_dir/target-aarch64_cortex-a53_musl/linux-mediatek_filogic"
+    DTB_FILE="$KDIR/image-mt7981b-cudy-tr3000-v1.dtb"
+    KERNEL_FIT="$KDIR/cudy_tr3000-v1-kernel.bin"
+    DTC=$(find "$KDIR" /home/build/immortalwrt/staging_dir/host/bin -name dtc -type f -executable | head -n 1)
+
+    if [ -n "$DTC" ] && [ -f "$DTB_FILE" ] && [ -f "$KDIR/Image" ]; then
+        "$DTC" -I dtb -O dts -o /tmp/tr3000.dts "$DTB_FILE"
+        sed -i 's/0x5c0000 0x0*4000000/0x5c0000 0x7000000/g' /tmp/tr3000.dts
+        grep -A 4 "partition@5c0000" /tmp/tr3000.dts
+        "$DTC" -I dts -O dtb -o "$DTB_FILE" /tmp/tr3000.dts
+
+        LINUX_VER=$(sed -n 's/^KERNEL_VERSION:=//p' /home/build/immortalwrt/include/version.mk | tr -d '[:space:]')
+        cp "$KDIR/Image" "$KERNEL_FIT"
+        /home/build/immortalwrt/staging_dir/host/bin/lzma e "$KERNEL_FIT" -lc1 -lp2 -pb2 "$KERNEL_FIT.new" && mv "$KERNEL_FIT.new" "$KERNEL_FIT"
+        /home/build/immortalwrt/scripts/mkits.sh \
+            -D cudy_tr3000-v1 -o "$KERNEL_FIT.its" -k "$KERNEL_FIT" \
+            -C lzma -d "$DTB_FILE" -a 0x48000000 -e 0x48000000 \
+            -c "config-1" -A arm64 -v "$LINUX_VER"
+        PATH="$(dirname "$DTC"):/home/build/immortalwrt/staging_dir/host/bin:$PATH" \
+            /home/build/immortalwrt/staging_dir/host/bin/mkimage -f "$KERNEL_FIT.its" "$KERNEL_FIT.new" && mv "$KERNEL_FIT.new" "$KERNEL_FIT"
+        rm -f "$KERNEL_FIT.its" /tmp/tr3000.dts
+
+        sed -i '/define Device\/cudy_tr3000-v1$/,/^endef$/s/IMAGE_SIZE := 65536k/IMAGE_SIZE := 114688k/' /home/build/immortalwrt/target/linux/mediatek/image/filogic.mk
+        echo "✅ cudy_tr3000-v1 112M 大分区内核与 DTB 重新打包完成！"
+    else
+        echo "⚠️ 未找到 dtc 或 DTB 文件，跳过 112M 补丁"
+    fi
+fi
+
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Building image with the following packages:"
 echo "$PACKAGES"
 
